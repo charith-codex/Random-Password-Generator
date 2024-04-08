@@ -45,3 +45,31 @@ const generatePassword = () => {
     }
     passwordInput.value = randomPassword; // passing randomPassword to passwordInput value
 }
+
+const upadatePassIndicator = () => {
+    // if lengthSlider value is less than 8 then pass "weak" as passIndicator id else if lengthSlider 
+    // value is less than 16 then pass "medium" as id else pass "strong" as id
+    passIndicator.id = lengthSlider.value <= 8 ? "weak" : lengthSlider.value <= 16 ? "medium" : "strong";
+}
+
+const updateSlider = () => {
+    // passing slider value as counter text
+    document.querySelector(".pass-length span").innerText = lengthSlider.value;
+    generatePassword();
+    upadatePassIndicator();
+}
+updateSlider();
+
+const copyPassword = () => {
+    navigator.clipboard.writeText(passwordInput.value); // copying random password
+    copyIcon.innerText = "check"; // changing copy icon to tick
+    copyIcon.style.color = "#4285F4";
+    setTimeout(() => { // after 1500 ms, changing tick icon back to copy
+        copyIcon.innerText = "copy_all";
+        copyIcon.style.color = "#707070";
+    }, 1500);
+}
+
+copyIcon.addEventListener("click", copyPassword);
+lengthSlider.addEventListener("input", updateSlider);
+generateBtn.addEventListener("click", generatePassword);
